@@ -17,6 +17,7 @@ export const getCustomers = async (accessToken: string) => {
     }
 
     if (!response.ok) {
+        revalidateTag('fetch-access-token');
         throw new Error('Failed to fetch customers');
     }
 
