@@ -49,10 +49,10 @@ export const RevenueTable = ({
                     hover:bg-gray-100 transition-colors
                   `}
               >
-                <td className="px-4 py-2 border-r border-gray-200 text-center truncate">
+                <td className="px-4 py-2 border-r border-gray-200 text-black text-center truncate">
                   {row.col1}
                 </td>
-                <td className="px-4 py-2 border-r border-gray-200 text-center truncate">
+                <td className="px-4 py-2 border-r border-gray-200 text-black text-center truncate">
                   {row.col2}
                 </td>
                 <td
