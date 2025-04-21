@@ -23,7 +23,7 @@ export default function SearchingPage() {
   });
 
   const handleSearch = async () => {
-    const response = await fetch(`/api/search?searchText=${searchText}`);
+    const response = await fetch(`/api/search?searchText=${searchText.trim()}`);
 
     const result = await response.json();
 
@@ -68,8 +68,9 @@ export default function SearchingPage() {
           className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 md:mr-5 mb-5 md:mb-0"
         />
         <button
+          disabled={searchText?.trim().length < 4}
           type="button"
-          className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 max-w-24"
+          className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-md font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 max-w-24 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:opacity-80"
           onClick={handleSearch}
         >
           Tìm kiếm
