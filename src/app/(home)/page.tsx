@@ -2,45 +2,12 @@
 
 import background from "@/assets/background.jpeg";
 import logo from "@/assets/logo.png";
+import searchingQrCode from "@/assets/searching_qrcode.png";
 import { RevenueTable } from "@/components/RevenueTable";
 import { useEffect, useRef, useState } from "react";
 import chunk from "lodash.chunk";
-import reverse from "lodash.reverse";
 import Image from "next/image";
-
-const generateTableData = (
-  order: number,
-  data: {
-    id: number;
-    code: string;
-    name: string;
-    totalRevenue: number;
-  }[]
-) => {
-  if (!data || data.length === 0)
-    return {
-      id: 0,
-      order: 0,
-      headers: [],
-      rows: [],
-    };
-
-  return {
-    order,
-    headers: ["Số đoàn", "Biển số", "Doanh thu"],
-    rows: reverse(data).map((item) => ({
-      id: item.id,
-      col1: item.code,
-      col2: item.name,
-      col3: Number(10000000)
-        .toLocaleString("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        })
-        .replaceAll(".", ","),
-    })),
-  };
-};
+import { generateTableData } from "@/utils/generate-table-data";
 
 export default function Home() {
   const intervalId = useRef<number>(0);
@@ -84,12 +51,19 @@ export default function Home() {
     );
   }, []);
 
-  const tablesData = [
-    generateTableData(1, chunk(revenueTableData, 20)[3]),
-    generateTableData(2, chunk(revenueTableData, 20)[2]),
-    generateTableData(3, chunk(revenueTableData, 20)[1]),
-    generateTableData(4, chunk(revenueTableData, 20)[0]),
-  ];
+  const tablesData = (() => {
+    const chunkedData = chunk(revenueTableData, 20);
+    while (chunkedData.length < 4) {
+      chunkedData.unshift([]);
+    }
+
+    return [
+      generateTableData(1, chunkedData[3] || []),
+      generateTableData(2, chunkedData[2] || []),
+      generateTableData(3, chunkedData[1] || []),
+      generateTableData(4, chunkedData[0] || []),
+    ];
+  })();
 
   return (
     <div
@@ -106,6 +80,15 @@ export default function Home() {
         width={120}
         height={120}
       />
+
+      <Image
+        src={searchingQrCode.src}
+        alt="Searching QR Code"
+        className="absolute top-2 right-5 hidden md:block"
+        priority
+        width={120}
+        height={120}
+      />
       <div className="text-center my-5 md:my-10">
         <h2 className="text-xl md:text-3xl font-bold md:tracking-wider text-blue-600">
           ĐẦU MỐI HẢI SẢN ĐÔNG DƯƠNG KÍNH CHÀO QUÝ KHÁCH!
@@ -113,15 +96,17 @@ export default function Home() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {tablesData.map((tableData, index) => (
-          <div key={index} className="w-full">
-            <RevenueTable
-              headers={tableData.headers}
-              rows={tableData.rows}
-              order={tableData.order}
-            />
-          </div>
-        ))}
+        {tablesData.map((tableData, index) =>
+          tableData.rows.length ? (
+            <div key={index} className="w-full">
+              <RevenueTable
+                headers={tableData.headers}
+                rows={tableData.rows}
+                order={tableData.order}
+              />
+            </div>
+          ) : null
+        )}
       </div>
     </div>
   );

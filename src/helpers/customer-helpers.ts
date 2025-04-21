@@ -1,12 +1,19 @@
+import dayjs from "dayjs";
 import { revalidateTag } from "next/cache";
+import timezone from "dayjs/plugin/timezone";
 
-export const getCustomers = async (accessToken: string) => {
+dayjs.extend(timezone)
+dayjs.tz.setDefault("Asia/Ho_Chi_Minh");
+
+export const getCustomers = async (accessToken: string, searchText?: string) => {
     const headers = {
         Retailer: process.env.RETAILER_NAME || '',
         Authorization: `Bearer ${accessToken}`,
     };
 
-    const response = await fetch(process.env.CUSTOMER_ENDPOINT ? `${process.env.CUSTOMER_ENDPOINT}?orderBy=modifiedDate&orderDirection=Desc&pageSize=80&includeTotal=true` : '', {
+    const startTime = dayjs().startOf('day').toISOString();
+
+    const response = await fetch(process.env.CUSTOMER_ENDPOINT ? `${process.env.CUSTOMER_ENDPOINT}?lastModifiedFrom=${startTime}&orderBy=modifiedDate&orderDirection=Desc&pageSize=80&includeTotal=true${searchText ? '&name=' + searchText : ''}` : '', {
         method: "GET",
         headers: headers,
     })
