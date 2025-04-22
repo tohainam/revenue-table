@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "dayjs": "^1.11.13",
     "lodash.chunk": "^4.2.0",
     "lodash.reverse": "^4.0.1",

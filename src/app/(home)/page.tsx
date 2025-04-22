@@ -1,116 +1,65 @@
 "use client";
 
-import background from "@/assets/background.jpeg";
-import logo from "@/assets/logo.png";
-import searchingQrCode from "@/assets/searching_qrcode.png";
-import { RevenueTable } from "@/components/RevenueTable";
-import { useEffect, useRef, useState } from "react";
-import chunk from "lodash.chunk";
-import Image from "next/image";
-import { generateTableData } from "@/utils/generate-table-data";
+import { HomePageClient } from "@/components/HomePageClient";
+import { FormEvent, useState } from "react";
 
 export default function Home() {
-  const intervalId = useRef<number>(0);
-  const [revenueTableData, setRevenueTableData] = useState<
-    {
-      id: number;
-      code: string;
-      name: string;
-      totalRevenue: number;
-    }[]
-  >([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
+  const [isError, setIsError] = useState(false);
 
-  const fetchRevenueTableData = async () => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setIsError(false);
+
     try {
-      const response = await fetch("/api/revenue-table");
-      const data = (await response.json()) as {
-        data: {
-          id: number;
-          code: string;
-          name: string;
-          totalRevenue: number;
-        }[];
-      };
+      const response = await fetch("/api/login", {
+        method: "POST",
+        body: new URLSearchParams({
+          password,
+        }),
+      });
 
-      setRevenueTableData(data.data);
+      if (!response.ok) {
+        setIsError(true);
+        return;
+      }
+
+      setIsAuthenticated(true);
     } catch {
-      setRevenueTableData([]);
-      console.log("Failed to fetch revenue table data");
+      setIsError(true);
+    } finally {
+      setPassword("");
     }
   };
 
-  useEffect(() => {
-    fetchRevenueTableData();
+  if (!isAuthenticated)
+    return (
+      <form onSubmit={handleLogin}>
+        <div className="flex flex-col items-center justify-center h-screen">
+          <input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            autoFocus
+            className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 md:mr-5 mb-5 md:mb-0 max-w-xl"
+          />
+          {isError ? (
+            <label className="text-sm text-red-500">
+              Sai mật khẩu, vui lòng nhập lại
+            </label>
+          ) : null}
 
-    if (intervalId.current !== 0) {
-      clearInterval(intervalId.current);
-    }
-
-    intervalId.current = window.setInterval(
-      () => {
-        fetchRevenueTableData();
-      },
-      process.env.NEXT_PUBLIC_RELOAD_INTERVAL_TIME_MS
-        ? parseInt(process.env.NEXT_PUBLIC_RELOAD_INTERVAL_TIME_MS)
-        : 10000
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-500 text-white rounded mt-5"
+          >
+            Đăng nhập
+          </button>
+        </div>
+      </form>
     );
-  }, []);
 
-  const tablesData = (() => {
-    const chunkedData = chunk(revenueTableData, 20);
-    while (chunkedData.length < 4) {
-      chunkedData.unshift([]);
-    }
-
-    return [
-      generateTableData(1, chunkedData[3] || []),
-      generateTableData(2, chunkedData[2] || []),
-      generateTableData(3, chunkedData[1] || []),
-      generateTableData(4, chunkedData[0] || []),
-    ];
-  })();
-
-  return (
-    <div
-      style={{
-        background: `url(${background.src}) no-repeat center center fixed`,
-      }}
-      className="min-h-screen min-w-screen py-5 px-5 md:px-20"
-    >
-      <Image
-        src={logo.src}
-        alt="Logo"
-        className="absolute top-2 left-5 hidden md:block"
-        priority
-        width={120}
-        height={120}
-      />
-
-      <Image
-        src={searchingQrCode.src}
-        alt="Searching QR Code"
-        className="absolute top-2 right-5 hidden md:block"
-        priority
-        width={120}
-        height={120}
-      />
-      <div className="text-center my-5 md:my-10">
-        <h2 className="text-xl md:text-3xl font-bold md:tracking-wider text-blue-600">
-          ĐẦU MỐI HẢI SẢN ĐÔNG DƯƠNG KÍNH CHÀO QUÝ KHÁCH!
-        </h2>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {tablesData.map((tableData, index) => (
-          <div key={index} className="w-full">
-            <RevenueTable
-              headers={tableData.headers}
-              rows={tableData.rows}
-              order={tableData.order}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+  return <HomePageClient />;
 }

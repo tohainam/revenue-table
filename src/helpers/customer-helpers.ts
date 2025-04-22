@@ -1,3 +1,5 @@
+import "server-only";
+
 import dayjs from "dayjs";
 import { revalidateTag } from "next/cache";
 import utc from "dayjs/plugin/utc";
