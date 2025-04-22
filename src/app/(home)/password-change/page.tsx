@@ -1,8 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 export default function PasswordChangePage() {
+  const router = useRouter();
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [isError, setIsError] = useState(false);
@@ -25,6 +27,8 @@ export default function PasswordChangePage() {
         setIsError(true);
         return;
       }
+      
+      router.push("/");
     } catch {
       setIsError(true);
     } finally {
