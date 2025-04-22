@@ -34,6 +34,7 @@ export default function Home() {
 
       setRevenueTableData(data.data);
     } catch {
+      setRevenueTableData([]);
       console.log("Failed to fetch revenue table data");
     }
   };
@@ -100,17 +101,15 @@ export default function Home() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {tablesData.map((tableData, index) =>
-          tableData.rows.length ? (
-            <div key={index} className="w-full">
-              <RevenueTable
-                headers={tableData.headers}
-                rows={tableData.rows}
-                order={tableData.order}
-              />
-            </div>
-          ) : null
-        )}
+        {tablesData.map((tableData, index) => (
+          <div key={index} className="w-full">
+            <RevenueTable
+              headers={tableData.headers}
+              rows={tableData.rows}
+              order={tableData.order}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -6,30 +6,34 @@ export const generateTableData = (
     id: number;
     code: string;
     name: string;
-    totalRevenue: number;
+    totalRevenue: number | undefined;
   }[]
 ) => {
-  if (!data || data.length === 0)
-    return {
-      id: 0,
-      order: 0,
-      headers: [],
-      rows: [],
-    };
+  let result = reverse(data);
+
+  if (result.length < 20) {
+    const dummyData = Array.from({ length: 20 - data.length }, () => ({
+      id: Math.floor(Math.random() * 1000000000),
+      code: "",
+      name: "",
+      totalRevenue: undefined,
+    }));
+    result = [...result, ...dummyData];
+  }
 
   return {
     order,
     headers: ["Số đoàn", "Biển số", "Doanh thu"],
-    rows: reverse(data).map((item) => ({
+    rows: result.map((item) => ({
       id: item.id,
       col1: item.code,
       col2: item.name,
-      col3: item.totalRevenue
+      col3: item.totalRevenue !== undefined ? item.totalRevenue
         .toLocaleString("vi-VN", {
           style: "currency",
           currency: "VND",
         })
-        .replaceAll(".", ","),
+        .replaceAll(".", ",") : '',
     })),
   };
 };
