@@ -1,5 +1,5 @@
+import { changePassword } from "@/helpers/authenticate";
 import { NextRequest } from "next/server";
-import { changePassword } from "@/helpers/chang-password";
 
 export async function POST(request: NextRequest) {
   try {
