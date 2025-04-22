@@ -21,17 +21,21 @@ export default function Home() {
   >([]);
 
   const fetchRevenueTableData = async () => {
-    const response = await fetch("/api/revenue-table");
-    const data = (await response.json()) as {
-      data: {
-        id: number;
-        code: string;
-        name: string;
-        totalRevenue: number;
-      }[];
-    };
+    try {
+      const response = await fetch("/api/revenue-table");
+      const data = (await response.json()) as {
+        data: {
+          id: number;
+          code: string;
+          name: string;
+          totalRevenue: number;
+        }[];
+      };
 
-    setRevenueTableData(data.data);
+      setRevenueTableData(data.data);
+    } catch {
+      console.log("Failed to fetch revenue table data");
+    }
   };
 
   useEffect(() => {

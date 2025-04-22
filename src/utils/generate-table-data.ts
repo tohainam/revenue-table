@@ -24,7 +24,7 @@ export const generateTableData = (
       id: item.id,
       col1: item.code,
       col2: item.name,
-      col3: Number(10000000)
+      col3: item.totalRevenue
         .toLocaleString("vi-VN", {
           style: "currency",
           currency: "VND",

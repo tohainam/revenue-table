@@ -1,9 +1,8 @@
 import dayjs from "dayjs";
 import { revalidateTag } from "next/cache";
-import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 
-dayjs.extend(timezone)
-dayjs.tz.setDefault("Asia/Ho_Chi_Minh");
+dayjs.extend(utc)
 
 export const getCustomers = async (accessToken: string, searchText?: string) => {
     const headers = {
@@ -11,7 +10,7 @@ export const getCustomers = async (accessToken: string, searchText?: string) => 
         Authorization: `Bearer ${accessToken}`,
     };
 
-    const startTime = dayjs().startOf('day').toISOString();
+    const startTime = dayjs().utcOffset(0).startOf('date').toISOString();
 
     const response = await fetch(process.env.CUSTOMER_ENDPOINT ? `${process.env.CUSTOMER_ENDPOINT}?lastModifiedFrom=${startTime}&orderBy=modifiedDate&orderDirection=Desc&pageSize=80&includeTotal=true${searchText ? '&name=' + searchText : ''}` : '', {
         method: "GET",
