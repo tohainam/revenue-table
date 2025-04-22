@@ -42,6 +42,7 @@ export default function Home() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type="password"
+            placeholder="Hãy nhập mật khẩu"
             autoFocus
             className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 md:mr-5 mb-5 md:mb-0 max-w-xl"
           />
@@ -52,8 +53,9 @@ export default function Home() {
           ) : null}
 
           <button
+          disabled={!password}
             type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded mt-5"
+            className="px-4 py-2 bg-blue-500 text-white rounded mt-5 disabled:cursor-not-allowed disabled:opacity-80"
           >
             Đăng nhập
           </button>
