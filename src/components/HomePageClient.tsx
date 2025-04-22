@@ -82,25 +82,27 @@ export const HomePageClient = () => {
         alt="Logo"
         className="absolute top-2 left-5 hidden md:block"
         priority
-        width={120}
-        height={120}
+        width={125}
+        height={125}
       />
 
-      <Image
-        src={searchingQrCode.src}
-        alt="Searching QR Code"
-        className="absolute top-2 right-5 hidden md:block"
-        priority
-        width={120}
-        height={120}
-      />
+      <div className="absolute top-2 right-5 hidden md:block flex justify-items-center">
+        <Image
+          src={searchingQrCode.src}
+          alt="Searching QR Code"
+          priority
+          width={125}
+          height={125}
+        />
+        <span className="text-blue-600 text-xl md:text-lg font-bold">Quét để kiểm tra doanh thu đoàn</span>
+      </div>
       <div className="text-center my-5 md:my-10">
         <h2 className="text-xl md:text-3xl font-bold md:tracking-wider text-blue-600">
           ĐẦU MỐI HẢI SẢN ĐÔNG DƯƠNG KÍNH CHÀO QUÝ KHÁCH!
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-18">
         {tablesData.map((tableData, index) => (
           <div key={index} className="w-full">
             <RevenueTable
