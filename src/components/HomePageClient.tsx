@@ -75,34 +75,35 @@ export const HomePageClient = () => {
       style={{
         background: `url(${background.src}) no-repeat center center fixed`,
       }}
-      className="min-h-screen min-w-screen py-5 px-5 md:px-20"
+      className="flex flex-col justify-between min-h-screen min-w-screen py-5 xl:py-10 px-5 md:px-20"
     >
       <Image
         src={logo.src}
         alt="Logo"
-        className="absolute top-2 left-5 hidden md:block"
+        className="absolute top-2 xl:top-10 left-5 hidden md:block"
         priority
-        width={125}
-        height={125}
+        width={150}
+        height={150}
       />
 
-      <div className="absolute top-2 right-5 hidden md:block flex justify-items-center">
+      <div className="absolute top-2 xl:top-10 right-5 hidden md:block flex justify-items-center">
         <Image
           src={searchingQrCode.src}
           alt="Searching QR Code"
           priority
-          width={125}
-          height={125}
+          width={150}
+          height={150}
         />
         <span className="text-blue-600 text-xl md:text-lg font-bold">Quét để kiểm tra doanh thu đoàn</span>
       </div>
-      <div className="text-center my-5 md:my-10">
-        <h2 className="text-xl md:text-3xl font-bold md:tracking-wider text-blue-600">
+
+      <div className="text-center my-5 md:my-10 xl:px-40">
+        <h2 className="text-xl md:text-3xl xl:text-5xl font-bold md:tracking-wider text-blue-600">
           ĐẦU MỐI HẢI SẢN ĐÔNG DƯƠNG KÍNH CHÀO QUÝ KHÁCH!
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-18">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {tablesData.map((tableData, index) => (
           <div key={index} className="w-full">
             <RevenueTable
