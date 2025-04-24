@@ -98,7 +98,7 @@ export const HomePageClient = () => {
       </div>
 
       <div className="text-center my-5 md:my-10 xl:px-30">
-        <h2 className="text-xl md:text-3xl xl:text-5xl font-bold md:tracking-wider text-blue-600">
+        <h2 className="text-xl md:text-3xl xl:text-4xl font-bold md:tracking-wider text-blue-600">
           ĐẦU MỐI HẢI SẢN ĐÔNG DƯƠNG KÍNH CHÀO QUÝ KHÁCH!
         </h2>
       </div>
