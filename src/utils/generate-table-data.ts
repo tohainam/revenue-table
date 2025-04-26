@@ -1,5 +1,3 @@
-import reverse from "lodash.reverse";
-
 export const generateTableData = (
   order: number,
   data: {
@@ -9,22 +7,20 @@ export const generateTableData = (
     totalRevenue: number | undefined;
   }[]
 ) => {
-  let result = reverse(data);
-
-  if (result.length < 20) {
+  if (data.length < 20) {
     const dummyData = Array.from({ length: 20 - data.length }, () => ({
       id: Math.floor(Math.random() * 1000000000),
       code: "",
       name: "",
       totalRevenue: undefined,
     }));
-    result = [...result, ...dummyData];
+    data = [...data, ...dummyData];
   }
 
   return {
     order,
     headers: ["Số đoàn", "Biển số", "Doanh thu"],
-    rows: result.map((item) => ({
+    rows: data.map((item) => ({
       id: item.id,
       col1: item.code,
       col2: item.name,

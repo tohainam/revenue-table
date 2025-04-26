@@ -1,13 +1,14 @@
 "use client";
 
 import { generateTableData } from "@/utils/generate-table-data";
-import chunk from "lodash.chunk";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { RevenueTable } from "./RevenueTable";
 import background from "@/assets/background.jpeg";
 import logo from "@/assets/logo.png";
 import searchingQrCode from "@/assets/searching_qrcode.png";
+import { splitArray } from "@/utils/split-array";
+import cloneDeep from "lodash.clonedeep";
 
 export const HomePageClient = () => {
   const intervalId = useRef<number>(0);
@@ -57,16 +58,16 @@ export const HomePageClient = () => {
   }, []);
 
   const tablesData = (() => {
-    const chunkedData = chunk(revenueTableData, 20);
-    while (chunkedData.length < 4) {
-      chunkedData.unshift([]);
-    }
+    const newData = cloneDeep(revenueTableData);
+    newData.reverse()
+  
+    const chunkedData = splitArray(newData, 20);
 
     return [
-      generateTableData(1, chunkedData[3] || []),
-      generateTableData(2, chunkedData[2] || []),
-      generateTableData(3, chunkedData[1] || []),
-      generateTableData(4, chunkedData[0] || []),
+      generateTableData(1, chunkedData[0] || []),
+      generateTableData(2, chunkedData[1] || []),
+      generateTableData(3, chunkedData[2] || []),
+      generateTableData(4, chunkedData[3] || []),
     ];
   })();
 
