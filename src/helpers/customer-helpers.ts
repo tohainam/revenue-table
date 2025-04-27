@@ -1,5 +1,7 @@
 import "server-only";
 
+export const runtime = 'edge';
+
 import dayjs from "dayjs";
 import { revalidateTag } from "next/cache";
 import utc from "dayjs/plugin/utc";
