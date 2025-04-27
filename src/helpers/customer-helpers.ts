@@ -20,6 +20,7 @@ export const getCustomers = async (accessToken: string, searchText?: string) => 
     })
 
     if(response.status === 401) {
+        console.log('Access token expired, revalidating...');
         revalidateTag('fetch-access-token');
         throw new Error('Failed to fetch customers because access token expired');
     }
