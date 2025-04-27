@@ -1,6 +1,4 @@
-// import "server-only";
-
-export const runtime = 'edge';
+import "server-only";
 
 import dayjs from "dayjs";
 import { revalidateTag } from "next/cache";

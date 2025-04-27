@@ -1,6 +1,4 @@
-// import "server-only";
-
-export const runtime = 'edge';
+import "server-only";
 
 export const getAccessToken = async () => {
   const response = await fetch(process.env.TOKEN_ENDPOINT || "", {
