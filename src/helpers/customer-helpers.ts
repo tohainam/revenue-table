@@ -1,7 +1,7 @@
 import "server-only";
 
 import dayjs from "dayjs";
-import { revalidateTag } from "next/cache";
+// import { revalidateTag } from "next/cache";
 import utc from "dayjs/plugin/utc";
 
 dayjs.extend(utc)
@@ -23,12 +23,12 @@ export const getCustomers = async (accessToken: string, searchText?: string) => 
 
     if(response.status === 401) {
         console.log('Access token expired, revalidating...');
-        revalidateTag('fetchaccesstoken');
+        // revalidateTag('fetchaccesstoken');
         throw new Error('Failed to fetch customers because access token expired');
     }
 
     if (!response.ok) {
-        revalidateTag('fetchaccesstoken');
+        // revalidateTag('fetchaccesstoken');
         throw new Error('Failed to fetch customers');
     }
 
