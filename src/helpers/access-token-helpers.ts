@@ -17,7 +17,7 @@ export const getAccessToken = async () => {
       revalidate: process.env.TOKEN_API_CACHE_TIME
         ? parseInt(process.env.TOKEN_API_CACHE_TIME)
         : 86000,
-      tags: ["fetch-access-token"],
+      tags: ["fetchaccesstoken"],
     },
   });
 
@@ -27,7 +27,7 @@ export const getAccessToken = async () => {
 
   const data = await response.json();
 
-  console.log(data);
+  console.log('getAccessToken', data?.access_token);
 
   return data;
 };

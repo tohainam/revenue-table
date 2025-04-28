@@ -7,6 +7,8 @@ import utc from "dayjs/plugin/utc";
 dayjs.extend(utc)
 
 export const getCustomers = async (accessToken: string, searchText?: string) => {
+  console.log('getCustomers', accessToken);
+
     const headers = {
         Retailer: process.env.RETAILER_NAME || '',
         Authorization: `Bearer ${accessToken}`,
@@ -21,12 +23,12 @@ export const getCustomers = async (accessToken: string, searchText?: string) => 
 
     if(response.status === 401) {
         console.log('Access token expired, revalidating...');
-        revalidateTag('fetch-access-token');
+        revalidateTag('fetchaccesstoken');
         throw new Error('Failed to fetch customers because access token expired');
     }
 
     if (!response.ok) {
-        revalidateTag('fetch-access-token');
+        revalidateTag('fetchaccesstoken');
         throw new Error('Failed to fetch customers');
     }
 
