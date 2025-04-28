@@ -6,5 +6,5 @@ export const runtime = "edge";
 export async function GET() {
   revalidateTag("fetchaccesstoken");
   const { access_token } = await getAccessToken();
-  return access_token;
+  return Response.json(access_token)
 }
