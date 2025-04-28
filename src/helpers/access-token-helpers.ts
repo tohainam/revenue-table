@@ -13,12 +13,12 @@ export const getAccessToken = async () => {
       client_id: process.env.CLIENT_ID || "",
       client_secret: process.env.CLIENT_SECRET || "",
     }),
-    // next: {
-    //   revalidate: process.env.TOKEN_API_CACHE_TIME
-    //     ? parseInt(process.env.TOKEN_API_CACHE_TIME)
-    //     : 86000,
-    //   tags: ["fetchaccesstoken"],
-    // },
+    next: {
+      revalidate: process.env.TOKEN_API_CACHE_TIME
+        ? parseInt(process.env.TOKEN_API_CACHE_TIME)
+        : 86000,
+      tags: ["fetchaccesstoken"],
+    },
   });
 
   if (!response.ok) {
