@@ -1,6 +1,11 @@
 import "server-only";
 
 import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(timezone);
+dayjs.extend(utc);
 
 export const getCustomers = async (
   accessToken: string,
@@ -13,15 +18,18 @@ export const getCustomers = async (
     Authorization: `Bearer ${accessToken}`,
   };
 
-  const startTime0 = dayjs().startOf("date").toISOString();
+  const startTime = dayjs()
+    .tz("Asia/Ho_Chi_Minh")
+    .startOf("date")
+    .toISOString();
 
-  console.log("startTime0", startTime0);
+  console.log("startTime", startTime);
 
   const response = await fetch(
     process.env.CUSTOMER_ENDPOINT
       ? `${
           process.env.CUSTOMER_ENDPOINT
-        }?lastModifiedFrom=${startTime0}&orderBy=modifiedDate&orderDirection=Desc&pageSize=80&includeTotal=true${
+        }?lastModifiedFrom=${startTime}&orderBy=modifiedDate&orderDirection=Desc&pageSize=80&includeTotal=true${
           searchText ? "&name=" + searchText : ""
         }`
       : "",
