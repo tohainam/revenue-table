@@ -11,7 +11,7 @@ export const getCustomers = async (
   accessToken: string,
   searchText?: string
 ) => {
-  console.log("getCustomers", accessToken);
+  // console.log("getCustomers", accessToken);
 
   const headers = {
     Retailer: process.env.RETAILER_NAME || "",
@@ -25,11 +25,13 @@ export const getCustomers = async (
 
   console.log("startTime", startTime);
 
+  const groupId = 19398;
+
   const response = await fetch(
     process.env.CUSTOMER_ENDPOINT
       ? `${
           process.env.CUSTOMER_ENDPOINT
-        }?lastModifiedFrom=${startTime}&orderBy=modifiedDate&orderDirection=Desc&pageSize=80&includeTotal=true${
+        }?lastModifiedFrom=${startTime}&groupId=${groupId}&orderBy=modifiedDate&orderDirection=Desc&pageSize=80&includeTotal=true${
           searchText ? "&name=" + searchText : ""
         }`
       : "",
